@@ -1,0 +1,11 @@
+<html>
+<head>
+    <title>API Display</title>
+</head>
+<body>
+    <h1>List of posts</h1>
+    {% for i in response %}
+    <strong>{{i.id}} - {{i.phone}}  - {{i.location}} ,</strong><br>
+    {% endfor %}
+</body>
+</html>
