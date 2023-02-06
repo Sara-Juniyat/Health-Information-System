@@ -5,13 +5,13 @@ from .models import *
 class serializerDoctor(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Doctor
-        fields = ['user', 'email', 'salary', 'created']
+        fields = ['email', 'salary', 'created']
 
 
 class serializerPatient(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Patient
-        fields = ['user', 'email', 'weight', 'height', 'allergies']
+        fields = ['email', 'weight', 'height', 'allergies']
 
 
 # Doctor, Patient, Document, Appointment, Consultation, Bill, Prescription, Nurse
@@ -38,7 +38,7 @@ class serializerNurse(serializers.HyperlinkedModelSerializer):
 class serializerAppointment(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Appointment
-        fields = ['day', 'start_time', 'end_time', 'patient', 'state', 'speciality', 'consulted']
+        fields = ['day', 'start_time', 'end_time', 'patient', 'state', 'consulted']
 
 
 class serializerConsultation(serializers.HyperlinkedModelSerializer):

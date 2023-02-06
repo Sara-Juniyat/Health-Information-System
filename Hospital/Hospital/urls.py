@@ -16,14 +16,29 @@ Including another URLconf
 from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
-from hosp.views import *
+from hosp.views import DoctorViewSet, PatientViewSet, NurseViewSet,DocumentViewSet, PrescriptionViewSet, AppointmentViewSet, BillViewSet, ConsultationViewSet, AddressViewSet
+
 
 router = routers.DefaultRouter()
 router.register(r'Doctor', DoctorViewSet)
-
+router.register(r'Patient', PatientViewSet)
+router.register(r'Nurse', NurseViewSet)
+router.register(r'Bill', BillViewSet)
+router.register(r'Appointment', AppointmentViewSet)
+router.register(r'Address', AddressViewSet)
+router.register(r'Prescription', PrescriptionViewSet)
+router.register(r'Document', DocumentViewSet)
+router.register(r'Consultation', ConsultationViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Doctor/', include(routers.urls)),
-    path('Patient/', include(routers.urls))
+    path('Doctor-API/', include(router.urls)),
+    path('Patient-API/', include(router.urls)),
+    path('Nurse-API/', include(router.urls)),
+    path('Appointment-API/', include(router.urls)),
+    path('Bill-API/', include(router.urls)),
+    path('Consultation-API/', include(router.urls)),
+    path('Address-API/', include(router.urls)),
+    path('prescription', include(router.urls)),
+    path('Document', include(router.urls)),
 ]

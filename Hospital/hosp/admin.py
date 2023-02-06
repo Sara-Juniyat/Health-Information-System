@@ -19,7 +19,7 @@ admin.site.register(Nurse, NurseAdmin)
 
 
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'email', 'salary', 'specialty', 'created')
+    list_display = ('user', 'email', 'salary', 'created')
 
 
 admin.site.register(Doctor, DoctorAdmin)

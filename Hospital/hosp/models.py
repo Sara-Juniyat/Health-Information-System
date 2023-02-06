@@ -9,7 +9,7 @@ class Address(models.Model):
     streetNb = models.IntegerField()
     bldngName = models.CharField(max_length=60)
     AptFloor = models.CharField(max_length=200)
-      = models.CharField(max_length=60)
+    city = models.CharField(max_length=60)
 
     def __str__(self):
         return str(self.streetNb) + ', ' + self.AptFloor + ' - ' + self.city
