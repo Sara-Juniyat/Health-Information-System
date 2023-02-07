@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
-from hosp.views import DoctorViewSet, PatientViewSet, NurseViewSet,DocumentViewSet, PrescriptionViewSet, AppointmentViewSet, BillViewSet, ConsultationViewSet, AddressViewSet
+from hosp.views import DoctorViewSet, ViewPDF, DownloadPDF, PatientViewSet, NurseViewSet,DocumentViewSet, PrescriptionViewSet, AppointmentViewSet, BillViewSet, ConsultationViewSet, AddressViewSet
 
 
 router = routers.DefaultRouter()
@@ -41,4 +41,6 @@ urlpatterns = [
     path('Address-API/', include(router.urls)),
     path('prescription', include(router.urls)),
     path('Document', include(router.urls)),
+    path('pdfview/', ViewPDF.as_view(), name="pdf_view"),
+    path('pdfdownload/', DownloadPDF.as_view(), name="pdf_download"),
 ]

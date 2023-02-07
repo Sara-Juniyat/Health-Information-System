@@ -3,9 +3,15 @@
 
 from django.shortcuts import render
 from rest_framework import viewsets
+
+import hosp
 from .serializers import *
-from rest_framework.permissions import *
 from .forms import *
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.views import View
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
@@ -177,3 +183,47 @@ def document_api(request):
 
     context['form'] = form
     return render(request, "Document-API", context)
+
+
+def display(request):
+    data = hosp.objects.all()
+    context = {
+                'response': data,
+        }
+    return render(request, "temp2.html", context)
+
+
+def render_to_pdf(template_src, context_dict):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+class ViewPDF(View):
+    @staticmethod
+    def get(request, *args, **kwargs):
+        data = hosp.objects.all()
+        context = {
+            'responses': data
+        }
+        pdf = render_to_pdf('pdf_template.html', context)
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+class DownloadPDF(View):
+    @staticmethod
+    def get(request, *args, **kwargs):
+        data = hosp.objects.all()
+        context = {
+            'responses': data
+        }
+        pdf = render_to_pdf('pdf_template.html', context)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "hospital%s.pdf" % "12341231"
+        content = "attachment; filename='%s'" % filename
+        response['Content-Disposition'] = content
+        return response
