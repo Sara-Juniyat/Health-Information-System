@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
-from hosp.views import DoctorViewSet, ViewPDF, DownloadPDF, PatientViewSet, NurseViewSet,DocumentViewSet, PrescriptionViewSet, AppointmentViewSet, BillViewSet, ConsultationViewSet, AddressViewSet
-
+from hosp.views import UpdateProfileView, DoctorViewSet, ViewPDF, DownloadPDF, PatientViewSet, NurseViewSet, DocumentViewSet, PrescriptionViewSet, AppointmentViewSet, BillViewSet, ConsultationViewSet, AddressViewSet
+from rest_framework.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+from hosp.views import RegisterUserAPIView, ChangePasswordView, ProfileView
 
 router = routers.DefaultRouter()
 router.register(r'Doctor', DoctorViewSet)
@@ -43,4 +44,14 @@ urlpatterns = [
     path('Document', include(router.urls)),
     path('pdfview/', ViewPDF.as_view(), name="pdf_view"),
     path('pdfdownload/', DownloadPDF.as_view(), name="pdf_download"),
+
+    path('signup', RegisterUserAPIView.as_view(), name='signup'),
+    path('login', TokenObtainPairView.as_view(), name='login'),
+    path('profile-get', ProfileView.as_view(), name='profile'),
+    path('change-password', ChangePasswordView.as_view(), name='change_password'),
+    path('update-profile/<int:pk>', UpdateProfileView.as_view(), name='auth_update_profile'),
+
+    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),  # /login/ /logout/
+    path('refreshToken', TokenRefreshView.as_view(), name='refresh_token'),
+    path('verifyToken', TokenVerifyView.as_view(), name='verify_token'),
 ]
