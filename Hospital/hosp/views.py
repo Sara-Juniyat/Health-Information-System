@@ -11,7 +11,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.views import View
 from rest_framework.permissions import IsAuthenticated
-#from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import *
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -294,8 +294,7 @@ class ChangePasswordView(UpdateAPIView):
 #         print(self.request.user)
 #         return self.request.user
 
-class JWTAuthentication:
-    pass
+
 
 
 class ProfileView(generics.RetrieveAPIView):

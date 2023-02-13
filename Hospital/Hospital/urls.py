@@ -10,15 +10,15 @@ Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from django.urls import include, path
+    1. Import to include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from rest_framework import routers
 from django.urls import path, include
+from hosp.views import RegisterUserAPIView, ChangePasswordView, ProfileView
 from hosp.views import UpdateProfileView, DoctorViewSet, ViewPDF, DownloadPDF, PatientViewSet, NurseViewSet, DocumentViewSet, PrescriptionViewSet, AppointmentViewSet, BillViewSet, ConsultationViewSet, AddressViewSet
 from rest_framework.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-from hosp.views import RegisterUserAPIView, ChangePasswordView, ProfileView
 
 router = routers.DefaultRouter()
 router.register(r'Doctor', DoctorViewSet)
