@@ -1,0 +1,32 @@
+<body>
+
+<h1>Hospital Model</h1>
+<hr>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>phone</th>
+        <th>location</th>
+    </tr>
+    {% for  x in responses %}
+        <tr>
+            <th>
+                {{ x.id }}
+            </th>
+            <th>
+                {{ x.phone }}
+            </th>
+            <th>
+                {{ x.location }}
+            </th>
+
+        </tr>
+    {% endfor %}
+
+
+</table>
+
+<hr>
+
+</body>
