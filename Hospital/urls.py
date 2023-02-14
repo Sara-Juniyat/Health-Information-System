@@ -41,8 +41,7 @@ urlpatterns = [
     path('Address-API/', include(router.urls)),
     path('prescription', include(router.urls)),
     path('Document', include(router.urls)),
-    path('pdfview/', ViewPDF.as_view(), name="pdf_view"),
-    path('pdfdownload/', DownloadPDF.as_view(), name="pdf_download"),
+    path('bill_pdf/', bill_pdf, name='generate_pdf'),
 
     path('signup', RegisterUserAPIView.as_view(), name='signup'),
     path('login', TokenObtainPairView.as_view(), name='login'),
