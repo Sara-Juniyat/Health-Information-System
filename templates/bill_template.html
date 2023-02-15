@@ -1,0 +1,29 @@
+<body>
+
+<h1>Hospital Model</h1>
+<hr>
+
+<table>
+    <tr>
+        <th>payment state</th>
+        <th>fee</th>
+        <th>consultation doctor</th>
+        <th>consultation appointment</th>
+        <th>consultation observation</th>
+    </tr>
+    {% for  x in responses %}
+        <tr>
+            <th>{{ x.payment_state }}</th>
+            <th>{{ x.fee }}</th>
+            <th>{{ x.consultation__doctor__first_name }} {{ x.consultation__doctor__last_name }}</th>
+            <th>{{ x.consultation__appointment__patient__first_name }} {{ x.consultation__appointment__patient__last_name }}</th>
+            <th>{{ x.consultation__observation }}</th>
+        </tr>
+    {% endfor %}
+
+
+</table>
+
+<hr>
+
+</body>

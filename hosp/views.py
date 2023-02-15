@@ -1,5 +1,7 @@
 import os
 
+from django.db.models import Value
+from django.db.models.functions import Concat
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.views import View
@@ -198,48 +200,27 @@ def document_api(request):
     return render(request, "Document-API", context)
 
 
-def display(request):
-    data = hosp.objects.all()
-    context = {
-        'response': data,
-    }
-    return render(request, "temp2.html", context)
-
-
-def render_to_pdf(template_src, context_dict):
+def pdf(template_src, context_dict):
     template = get_template(template_src)
     html = template.render(context_dict)
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
     if not pdf.err:
         return HttpResponse(result.getvalue(), content_type='application/pdf')
-    return None
+    return HttpResponse('Error generating PDF: %s' % pdf.err, status=400)
 
 
-class ViewPDF(View):
-    @staticmethod
-    def get(request, *args, **kwargs):
-        data = hosp.objects.all()
-        context = {
-            'responses': data
-        }
-        pdf = render_to_pdf('pdf_template.html', context)
-        return HttpResponse(pdf, content_type='application/pdf')
-
-
-class DownloadPDF(View):
-    @staticmethod
-    def get(request, *args, **kwargs):
-        data = hosp.objects.all()
-        context = {
-            'responses': data
-        }
-        pdf = render_to_pdf('pdf_template.html', context)
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "hospital%s.pdf" % "12341231"
-        content = "attachment; filename='%s'" % filename
-        response['Content-Disposition'] = content
-        return response
+def bill_pdf(request):
+    bill_response = Bill.objects.filter(payment_state="Pending", consultation__appointment__patient=request.GET.get("id")).values(
+        'fee',
+        'payment_state',
+        'consultation__doctor__first_name',
+        'consultation__doctor__last_name',
+        'consultation__appointment__patient__first_name',
+        'consultation__appointment__patient__last_name',
+        'consultation__observation'
+    )
+    return pdf('bill_template.html', {'responses': bill_response})
 
 
 class CustomRedirect(HttpResponsePermanentRedirect):
